@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #SBATCH -p wacc
-#SBATCH -J nlm_cpu
+#SBATCH -J nlm_cuda
 #SBATCH -o nlm_cpu.out -e nlm_cpu.err
 
 make clean
