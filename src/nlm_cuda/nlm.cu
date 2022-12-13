@@ -1,7 +1,11 @@
 #include "nlm.cuh"
 #include <stdio.h>
-#include "utils.h"
 #include <math.h>
+
+#define FILTER_SIGMA 0.0185
+#define PATCH_SIGMA 3.1550
+
+__device__ const float DEV_FILTER_SIGMA = (float)FILTER_SIGMA;
 
 __device__ void compare_patches(float *comp, float *image, float *gaussian_arr, int i, int j, int pixels, int padding, int patch)
 {
@@ -33,8 +37,8 @@ __global__ void nlm(float *nlm_image, float *image, int size_with_padding, float
             for (int j = padding; j < (pixels + padding); j++)
             {
                 float comp = 0;
-                compare_patches(&comp, image, index, i * (pixels + 2 * padding) + j, gaussian_arr, pixels, padding, patch);
-                weight = (float)(exp(-comp / (FILTER_SIGMA * FILTER_SIGMA)));
+                compare_patches(&comp, image, gaussian_arr, index, i * (pixels + 2 * padding) + j, pixels, padding, patch);
+                weight = (float)(exp(-comp / (DEV_FILTER_SIGMA * DEV_FILTER_SIGMA)));
                 nlm_image[index] += weight * image[i * row_size + j];
                 Z += weight;
             }

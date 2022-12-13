@@ -19,7 +19,7 @@ void nlm_cuda(float *image, float *nlm_image, int pixels, int padding, int patch
 
     cudaMemcpy(&dev_gaussian_arr, gaussian_arr, sizeof(float) * pixels * pixels, cudaMemcpyHostToDevice);
 
-    nlm<<<pixels, pixels>>>(nlm_image, image, size_with_padding, dev_gaussian_arr);
+    nlm_sm<<<pixels, pixels>>>(nlm_image, image, size_with_padding, dev_gaussian_arr);
     cudaDeviceSynchronize();
 
     free(gaussian_arr);

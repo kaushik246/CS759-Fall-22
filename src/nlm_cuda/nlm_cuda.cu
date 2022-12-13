@@ -7,6 +7,14 @@
 
 using namespace std;
 
+void printer(float *arr, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        cout << arr[i] << endl;
+    }
+}
+
 void nlm_cuda(float *image, float *nlm_image, int pixels, int padding, int patch)
 {
     int size_with_padding = pixels * pixels + 4 * padding * pixels + 4 * padding * padding;
@@ -17,9 +25,12 @@ void nlm_cuda(float *image, float *nlm_image, int pixels, int padding, int patch
     float *dev_gaussian_arr;
     cudaMallocManaged(&dev_gaussian_arr, patch * patch * sizeof(float));
 
-    cudaMemcpy(&dev_gaussian_arr, gaussian_arr, sizeof(float) * pixels * pixels, cudaMemcpyHostToDevice);
+    for (int i = 0; i < patch * patch; i++)
+    {
+        dev_gaussian_arr[i] = gaussian_arr[i];
+    }
 
-    nlm<<<pixels, pixels>>>(nlm_image, image, size_with_padding, dev_gaussian_arr);
+    nlm<<<pixels, pixels>>>(nlm_image, image, size_with_padding, dev_gaussian_arr, pixels, padding, patch);
     cudaDeviceSynchronize();
 
     free(gaussian_arr);
@@ -41,13 +52,17 @@ int main(int argc, char *argv[])
 
     float *dev_image;
     cudaMallocManaged((void **)&dev_image, size_with_padding * sizeof(float));
-    cudaMemcpy(&dev_image, image, sizeof(float) * size_with_padding, cudaMemcpyHostToDevice);
+
+    for (int i = 0; i < size_with_padding; i++)
+    {
+        dev_image[i] = image[i];
+    }
 
     float *nlm_image;
     cudaMallocManaged((void **)&nlm_image, size_with_padding * sizeof(float));
     for (int i = 0; i < size_with_padding; i++)
     {
-        filtered_image[i] = (float)-1;
+        nlm_image[i] = (float)-1;
     }
 
     nlm_cuda(dev_image, nlm_image, pixels, padding, patch);
