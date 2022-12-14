@@ -29,9 +29,21 @@ void nlm_cuda(float *image, float *nlm_image, int pixels, int padding, int patch
     {
         dev_gaussian_arr[i] = gaussian_arr[i];
     }
+    cudaEvent_t start;
+    cudaEvent_t stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
 
     nlm<<<pixels, pixels>>>(nlm_image, image, size_with_padding, dev_gaussian_arr, pixels, padding, patch);
     cudaDeviceSynchronize();
+
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+
+    float ms;
+    cudaEventElapsedTime(&ms, start, stop);
+    printf("%f\n", ms);
 
     free(gaussian_arr);
     cudaFree(dev_gaussian_arr);

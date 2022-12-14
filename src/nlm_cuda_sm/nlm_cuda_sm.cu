@@ -30,7 +30,7 @@ void nlm_cuda(float *image, float *nlm_image, int pixels, int padding, int patch
         dev_gaussian_arr[i] = gaussian_arr[i];
     }
 
-    int shared_memory_size = patch * (pixels + 2 * padding);
+    int shared_memory_size = patch * (pixels + 2 * padding) * sizeof(float);
 
     nlm_sm<<<pixels, pixels, shared_memory_size>>>(nlm_image, image, size_with_padding, dev_gaussian_arr, pixels, padding, patch);
     cudaDeviceSynchronize();
