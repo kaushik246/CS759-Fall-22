@@ -1,4 +1,4 @@
-#include "nlm_sm.cuh"
+#include "nlm.cuh"
 #include <stdio.h>
 #include "utils.h"
 #include <math.h>
@@ -56,10 +56,6 @@ __global__ void nlm_sm(float *nlm_image, float *image, int size_with_padding, fl
             }
         }
         __syncthreads();
-        for (int i = 0; i < patch * padding; i++)
-        {
-            printf("%f\n", shared_memory[i]);
-        }
         float patch_i[9];
 
         for (int it1 = 0; it1 < patch; it1++)

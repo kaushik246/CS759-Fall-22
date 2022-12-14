@@ -1,5 +1,5 @@
 clean:
-	rm knn_cuda
-	rm knn_cuda.out
-	rm knn_cuda.err
+	rm nlm_cuda
+	rm nlm_cuda.out
+	rm nlm_cuda.err
 	rm filtered_image.txt

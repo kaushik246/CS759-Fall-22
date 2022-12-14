@@ -1,4 +1,4 @@
-#include "nlm_sm.cuh"
+#include "nlm.cuh"
 #include <stdio.h>
 #include <iostream>
 #include "utils.h"
