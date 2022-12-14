@@ -1,4 +1,4 @@
-#include "nlm_sm.cuh"
+#include "knn.cuh"
 #include <stdio.h>
 #include <iostream>
 #include "utils.h"
@@ -15,7 +15,7 @@ void printer(float *arr, int size)
     }
 }
 
-void nlm_cuda(float *image, float *nlm_image, int pixels, int padding, int patch)
+void knn_cuda(float *image, float *knn_image, int pixels, int padding, int patch)
 {
     int size_with_padding = pixels * pixels + 4 * padding * pixels + 4 * padding * padding;
 
@@ -29,16 +29,13 @@ void nlm_cuda(float *image, float *nlm_image, int pixels, int padding, int patch
     {
         dev_gaussian_arr[i] = gaussian_arr[i];
     }
-
-    int shared_memory_size = patch * (pixels + 2 * padding) * sizeof(float);
-
     cudaEvent_t start;
     cudaEvent_t stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
     cudaEventRecord(start);
 
-    nlm_sm<<<pixels, pixels, shared_memory_size>>>(nlm_image, image, size_with_padding, dev_gaussian_arr, pixels, padding, patch);
+    knn<<<pixels, pixels>>>(knn_image, image, size_with_padding, dev_gaussian_arr, pixels, padding, patch);
     cudaDeviceSynchronize();
 
     cudaEventRecord(stop);
@@ -73,18 +70,18 @@ int main(int argc, char *argv[])
         dev_image[i] = image[i];
     }
 
-    float *nlm_image;
-    cudaMallocManaged((void **)&nlm_image, size_with_padding * sizeof(float));
+    float *knn_image;
+    cudaMallocManaged((void **)&knn_image, size_with_padding * sizeof(float));
     for (int i = 0; i < size_with_padding; i++)
     {
-        nlm_image[i] = (float)-1;
+        knn_image[i] = (float)-1;
     }
 
-    nlm_cuda(dev_image, nlm_image, pixels, padding, patch);
+    knn_cuda(dev_image, knn_image, pixels, padding, patch);
 
-    write_vals_to_txt(nlm_image, pixels, padding, patch);
+    write_vals_to_txt(knn_image, pixels, padding, patch);
 
-    cudaFree(nlm_image);
+    cudaFree(knn_image);
     cudaFree(dev_image);
     free(image);
 

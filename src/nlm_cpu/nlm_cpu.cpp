@@ -2,8 +2,10 @@
 #include <iostream>
 #include "utils.h"
 #include <math.h>
+#include <chrono>
 
 using namespace std;
+using namespace chrono;
 
 float *nlm_cpu(float *image, int pixels, int padding, int patch)
 {
@@ -49,7 +51,12 @@ int main(int argc, char *argv[])
     image = parse_vals_from_txt(pixels, padding);
 
     float *nlm_image;
+    auto start = high_resolution_clock::now();
     nlm_image = nlm_cpu(image, pixels, padding, patch);
+    auto stop = high_resolution_clock::now();
+
+    auto time = duration_cast<std::chrono::duration<double, std::milli>>(stop - start);
+    cout << time.count() << endl;
 
     write_vals_to_txt(nlm_image, pixels, padding, patch);
     return 0;

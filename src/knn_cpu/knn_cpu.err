@@ -1,0 +1,6 @@
+rm: cannot remove 'knn_cpu': No such file or directory
+make: *** [Makefile:2: clean] Error 1
+knn_cpu.cpp: In function ‘float* knn_cpu(float*, int, int, int)’:
+knn_cpu.cpp:16:9: warning: unused variable ‘count’ [-Wunused-variable]
+   16 |     int count = 0;
+      |         ^~~~~
