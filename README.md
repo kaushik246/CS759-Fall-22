@@ -18,7 +18,7 @@ I evaluated the NLM and kNN algorithms for images of different resolution and di
 
 # Preprocessing and Postprocessing Matlab scripts
 
-`/preprocessing/` contains the matlab scripts to convert given RGB/grayscale image to pixels values, add gaussian noise and creates file names noisy_image.txt
+`/processing/` contains the matlab scripts to convert given RGB/grayscale image to pixels values, add gaussian noise and creates file names noisy_image.txt
 
 `/read.m/` converts given RGB/grayscale image to grayscale image and logs pixel values to noisy_image.txt
 
