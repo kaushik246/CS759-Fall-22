@@ -72,9 +72,6 @@ I evaluated the NLM and kNN algorithms for images of different resolution and di
 
 `/images_txt/` contains the pixels values of *.png file images folder
 
-`/results_txt/` contains the pixels values of denoised images folder that will converted to *.png using write.m MATLAB scripts
-
-
 
 
 
