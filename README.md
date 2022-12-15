@@ -2,6 +2,45 @@
 Repository for HPC project Fall 22
 
 
+# Folder and steps for execution
+
+`/src/` folder contains all utility scripts, bash scripts, kernel code, timing code required to denoise the image and performance evaluation
+
+# NLM (Non Local Means) CPU Implementation
+
+`/src/nlm_cpu/` folder contains code for cpu implementation of NLM image denoising algorithm
+
+`sbatch /src/nlm_cpu/nlm_cpu.sh` to execute
+
+# NLM (Non Local Means) CUDA Implementation
+
+`/src/nlm_cuda/` folder contains code for cuda implementation of NLM image denoising algorithm
+
+`sbatch /src/nlm_cpu/nlm_cuda.sh` to execute
+
+# NLM (Non Local Means) CUDA Shared Memory Implementation
+
+`/src/nlm_cuda_sm/` folder contains code for cuda implementation of NLM image denoising algorithm using Shared Memory (SM)
+
+`sbatch /src/nlm_cpu/nlm_cuda_sm.sh` to execute
+
+# kNN (k Nearest Neighbors) CPU Implementation
+
+`/src/knn_cpu/` folder contains code for cpu implementation of kNN image denoising algorithm
+
+`sbatch /src/nlm_cpu/knn_cpu.sh` to execute
+
+# kNN (k Nearest Neighbors) CUDA Implementation
+
+`/src/knn_cuda/` folder contains code for cpu implementation of kNN image denoising algorithm
+
+`sbatch /src/nlm_cpu/knn_cuda.sh` to execute
+
+# Execution
+
+Each folder in `/src/` folder has shell scripts to produce filtered_image.txt file
+
+
 # Implementation of Image Denoising Algorithms using CUDA
 
 As part of the Final Project for CS 759 High Performance Computing, I implemented two popular image denoising algorithms in CUDA
@@ -34,39 +73,6 @@ I evaluated the NLM and kNN algorithms for images of different resolution and di
 `/images_txt/` contains the pixels values of *.png file images folder
 
 `/results_txt/` contains the pixels values of denoised images folder that will converted to *.png using write.m MATLAB scripts
-
-# Code
-
-`/src/` folder contains all utility scripts, bash scripts, kernel code, timing code required to denoise the image and performance evaluation
-
-# NLM (Non Local Means) CPU Implementation
-
-`/src/nlm_cpu/` folder contains code for cpu implementation of NLM image denoising algorithm
-
-# NLM (Non Local Means) CUDA Implementation
-
-`/src/nlm_cuda/` folder contains code for cuda implementation of NLM image denoising algorithm
-
-# NLM (Non Local Means) CUDA Shared Memory Implementation
-
-`/src/nlm_cuda_sm/` folder contains code for cuda implementation of NLM image denoising algorithm using Shared Memory (SM)
-
-# kNN (k Nearest Neighbors) CPU Implementation
-
-`/src/knn_cpu/` folder contains code for cpu implementation of kNN image denoising algorithm
-
-# kNN (k Nearest Neighbors) CUDA Implementation
-
-`/src/knn_cuda/` folder contains code for cpu implementation of kNN image denoising algorithm
-
-# kNN (k Nearest Neighbors) CUDA Shared Memory Implementation
-
-`/src/knn_cuda_sm/` folder contains code for cpu implementation of kNN image denoising algorithm
-
-
-# Execution
-
-Each folder in `/src/` folder has shell scripts to produce filtered_image.txt file
 
 
 
