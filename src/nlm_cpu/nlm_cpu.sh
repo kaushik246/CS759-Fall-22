@@ -5,4 +5,4 @@
 #SBATCH -o nlm_cpu.out -e nlm_cpu.err
 
 g++ nlm_cpu.cpp utils.cpp -Wall -O -std=c++17 -o nlm_cpu
-./nlm_cpu 64 3 noisy_image.txt
+./nlm_cpu 256 3 noisy_image.txt

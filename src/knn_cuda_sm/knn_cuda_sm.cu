@@ -1,4 +1,4 @@
-#include "knn_sm.cuh"
+#include "knn.cuh"
 #include <stdio.h>
 #include <iostream>
 #include "utils.h"
@@ -32,8 +32,21 @@ void knn_cuda(float *image, float *knn_image, int pixels, int padding, int patch
 
     int shared_memory_size = patch * (pixels + 2 * padding) * sizeof(float);
 
+    cudaEvent_t start;
+    cudaEvent_t stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     knn_sm<<<pixels, pixels, shared_memory_size>>>(knn_image, image, size_with_padding, dev_gaussian_arr, pixels, padding, patch);
     cudaDeviceSynchronize();
+
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+
+    float ms;
+    cudaEventElapsedTime(&ms, start, stop);
+    printf("%f\n", ms);
 
     free(gaussian_arr);
     cudaFree(dev_gaussian_arr);

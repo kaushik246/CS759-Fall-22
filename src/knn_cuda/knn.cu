@@ -23,6 +23,7 @@ __device__ void compare_patches(float *comp, float *image, float *gaussian_arr, 
         }
     }
 }
+
 __global__ void knn(float *knn_image, float *image, int size_with_padding, float *gaussian_arr, int pixels, int padding, int patch)
 {
     int index = blockIdx.x * (blockDim.x + 2 * padding) + (threadIdx.x + padding) + padding * pixels + 2 * padding * padding;
@@ -36,9 +37,8 @@ __global__ void knn(float *knn_image, float *image, int size_with_padding, float
         {
             for (int j = padding; j < (pixels + padding); j++)
             {
-                float comp = 0;
-                compare_patches(&comp, image, gaussian_arr, index, i * (pixels + 2 * padding) + j, pixels, padding, patch);
-                weight = (float)(exp(-comp / (DEV_FILTER_SIGMA * DEV_FILTER_SIGMA)));
+                float diff = image[index] - image[i * (pixels + 2 * padding) + j];
+                weight = (float)exp((diff * diff * -1) / (float)(DEV_FILTER_SIGMA * DEV_FILTER_SIGMA));
                 knn_image[index] += weight * image[i * row_size + j];
                 Z += weight;
             }
