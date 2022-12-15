@@ -8,4 +8,4 @@
 
 module load nvidia/cuda
 nvcc knn_cuda.cu knn.cu utils.cpp -Xcompiler -O3 -Xcompiler -Wall -Xptxas -O3 -std=c++17 -o knn_cuda
-./knn_cuda 256 3 noisy_image.txt
+./knn_cuda 64 3 noisy_image.txt

@@ -6,4 +6,4 @@
 
 make clean
 g++ knn_cpu.cpp utils.cpp -Wall -O -std=c++17 -o knn_cpu
-./knn_cpu 256 3 noisy_image.txt
+./knn_cpu 64 3 noisy_image.txt
